@@ -85,11 +85,13 @@ app.route('/meetings')
     })
     .post(function (req, res) {
         //create a new meeting with the entered meeting name, date and time
+        const meetingTitle=req.body.title
         const meetingTime = req.body.meetingTime
         const meetingDate = req.body.meetingDate
         const userEmail = req.body.email
         //creating the new meeting with the details entered 
         const newMeeting = new Meeting({
+            title:meetingTitle,
             time: meetingTime,
             date: meetingDate
         })
