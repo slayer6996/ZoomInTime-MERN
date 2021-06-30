@@ -55,8 +55,8 @@ app.route('/')
 app.route('/profile')
     .delete(function (req, res) {
         //deleting the account of an existing user from the DB 
-        const userId = req.body.id
-        User.deleteOne({ _id: userId }, function (err) {
+        const userEmail = req.body.email
+        User.deleteOne({ email: userEmail }, function (err) {
             if (err) {
                 console.log(err)
             } else {
@@ -85,23 +85,24 @@ app.route('/meetings')
     })
     .post(function (req, res) {
         //create a new meeting with the entered meeting name, date and time
-        const meetingTitle=req.body.title
+        const meetingTitle = req.body.title
         const meetingTime = req.body.meetingTime
         const meetingDate = req.body.meetingDate
         const userEmail = req.body.email
         //creating the new meeting with the details entered 
         const newMeeting = new Meeting({
-            title:meetingTitle,
+            title: meetingTitle,
             time: meetingTime,
             date: meetingDate
         })
-
         //finding currently logged in user and push the new meeting created into the meetings array of the user DB 
         User.findOne({ email: userEmail }, function (err, foundUser) {
             if (foundUser) {
                 foundUser.meetings.push(newMeeting)
                 //foundUser is a new document now of User model therefore we have to save it
                 foundUser.save()
+                console.log("created meeting successfully")
+                res.send("meeting created")
             } else {
                 console.log("An error occured while creating the meeting")
                 res.send("An error occured while creating the meeting")
@@ -114,28 +115,42 @@ app.route('/meetings')
 
 app.route('/meetings/:id')
     .patch(function (req, res) {
-        // const meetingTitle=req.body.meetingTitle 
-        // const meetingTime=req.body.meetingTime 
-        // const meetingDate=req.body.meetingDate
-
         //since only some fields of the meetings might be updating patch is used 
-        Meeting.updateOne({ _id: req.params.id }, { $set: req.body }, function (err) {
+        const userEmail = req.body.email
+        User.findOne({ email: userEmail }, function (err, foundUser) {
             if (err) {
                 console.log(err)
             } else {
-                console.log("updated meeting details successfully")
-                res.send("updated meeting details successfully")
+                const meeting = foundUser.meetings.id(req.params.id)
+                meeting.title = req.body.title
+                meeting.time = req.body.meetingTime
+                meeting.date = req.body.meetingDate
+                //changes are made to the foundUser so it's needed to be saved 
+                foundUser.save(err => {
+                    if (err) {
+                        res.send(err)
+                    }
+                })
             }
         })
     })
-    .delete(function(req,res){
+    .delete(function (req, res) {
         //deleting the meeting with the corresponding id
-        Meeting.deleteOne({_id:req.params.id}, function(err){
-            if(err){
+        const userEmail = req.body.email
+        User.findOne({ email: userEmail }, function (err, foundUser) {
+            if (err) {
+                res.send(err)
                 console.log(err)
-            } else{
-                console.log("deleted meeting successfully")
-                res.send("deleted meeting successfully")
+            } else {
+                foundUser.meetings.id(req.params.id).remove()
+                //changes are made to the foundUser so it's needed to be saved 
+                foundUser.save(err => {
+                    if (err) {
+                        res.send(err)
+                    } else {
+                        res.send("deleted meeting")
+                    }
+                })
             }
         })
     })
