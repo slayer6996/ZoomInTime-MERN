@@ -10,7 +10,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 const meetingSchema = new mongoose.Schema({
     title: String,
     time: String,
-    date: String
+    date: String,
+    link: String
 })
 
 const Meeting = new mongoose.model("Meeting", meetingSchema)
@@ -85,15 +86,17 @@ app.route('/meetings')
     })
     .post(function (req, res) {
         //create a new meeting with the entered meeting name, date and time
-        const meetingTitle = req.body.title
+        const meetingTitle = req.body.meetingTitle
         const meetingTime = req.body.meetingTime
         const meetingDate = req.body.meetingDate
+        const meetingLink=req.body.meetingLink
         const userEmail = req.body.email
         //creating the new meeting with the details entered 
         const newMeeting = new Meeting({
             title: meetingTitle,
             time: meetingTime,
-            date: meetingDate
+            date: meetingDate,
+            link: meetingLink
         })
         //finding currently logged in user and push the new meeting created into the meetings array of the user DB 
         User.findOne({ email: userEmail }, function (err, foundUser) {
@@ -122,9 +125,10 @@ app.route('/meetings/:id')
                 console.log(err)
             } else {
                 const meeting = foundUser.meetings.id(req.params.id)
-                meeting.title = req.body.title
+                meeting.title = req.body.meetingTitle
                 meeting.time = req.body.meetingTime
                 meeting.date = req.body.meetingDate
+                meeting.link=req.body.meetingLink
                 //changes are made to the foundUser so it's needed to be saved 
                 foundUser.save(err => {
                     if (err) {

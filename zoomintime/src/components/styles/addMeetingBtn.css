@@ -1,0 +1,10 @@
+.addMeetingBtn{
+    display: flex;
+    position: sticky;
+    margin: 1rem;
+    bottom: 0;
+    justify-content: right;
+}
+
+.addBtn{
+}

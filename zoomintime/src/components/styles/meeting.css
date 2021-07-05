@@ -1,0 +1,8 @@
+.meeting{
+    display: flex;
+}
+
+.meetingDetails{
+    flex: 1;
+    text-align: left;
+}

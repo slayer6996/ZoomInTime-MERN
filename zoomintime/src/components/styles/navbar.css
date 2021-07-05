@@ -1,0 +1,18 @@
+.nav{
+    background-color: #2D8CFF;
+    color:white;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    top:0;
+}
+
+.profileIcon{
+    display: flex;
+    flex-direction: column;
+}
+
+.profileIcon p{
+    margin-top: -0.5rem;
+    font-size: small;
+}
