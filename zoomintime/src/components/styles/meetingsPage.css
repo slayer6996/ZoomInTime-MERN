@@ -1,5 +1,9 @@
-.meetingsBox{
+.meetingBox{
     margin: 1rem 2rem;
     border-bottom: solid 1px lightgray;
     padding: 1rem;
+}
+
+.meetingsContainer{
+    margin-bottom: 4rem;
 }

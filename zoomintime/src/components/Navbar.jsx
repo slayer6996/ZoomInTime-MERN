@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './styles/navbar.css'
 import Profile from './Profile';
 import ProfileButton from './ProfileButton';
@@ -8,6 +8,20 @@ import Home from './Home';
 function Navbar(props) {
     const { isLoggedIn, loggedInUser } = props
     console.log(loggedInUser)
+
+    useEffect(async() => {
+            const res=await fetch('http://localhost:5000', {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                email:loggedInUser.email
+            })
+        })
+        const data=await res.json()
+        console.log(data)
+    },[loggedInUser])
 
     return (
         <>
@@ -21,7 +35,7 @@ function Navbar(props) {
                     </Link>}
                 </div>
                 <Switch>
-                    <Route path="/" component={Home} exact />
+                    <Route path="/" component={() => <Home user={loggedInUser} />} exact />
                     <Route path="/profile" component={Profile} exact />
                 </Switch>
             </BrowserRouter>

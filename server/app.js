@@ -1,4 +1,5 @@
 const express = require('express')
+const cors=require('cors')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 mongoose.connect("mongodb://localhost:27017/ZoomInTimeUserDB", { useNewUrlParser: true, useUnifiedTopology: true })
@@ -6,12 +7,14 @@ mongoose.connect("mongodb://localhost:27017/ZoomInTimeUserDB", { useNewUrlParser
 const app = express()
 
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(cors())
 
 const meetingSchema = new mongoose.Schema({
-    title: String,
-    time: String,
-    date: String,
-    link: String
+    meetingTitle: String,
+    meetingTime: String,
+    meetingDate: String,
+    meetingLink: String
 })
 
 const Meeting = new mongoose.model("Meeting", meetingSchema)
@@ -35,7 +38,7 @@ app.route('/')
                 console.log(err)
             } else if (foundUser) {
                 console.log("user logged in")
-                res.redirect('/meetings')
+                // res.redirect('/meetings')
             } else {
                 const newUser = new User({
                     email: userEmail,
@@ -46,7 +49,7 @@ app.route('/')
                         console.log(err)
                     } else {
                         console.log("new user created successfully")
-                        res.send("new user created successfully")
+                        //res.send("new user created successfully")
                     }
                 })
             }
@@ -93,10 +96,10 @@ app.route('/meetings')
         const userEmail = req.body.email
         //creating the new meeting with the details entered 
         const newMeeting = new Meeting({
-            title: meetingTitle,
-            time: meetingTime,
-            date: meetingDate,
-            link: meetingLink
+            meetingTitle: meetingTitle,
+            meetingTime: meetingTime,
+            meetingDate: meetingDate,
+            meetingLink: meetingLink
         })
         //finding currently logged in user and push the new meeting created into the meetings array of the user DB 
         User.findOne({ email: userEmail }, function (err, foundUser) {
@@ -125,10 +128,10 @@ app.route('/meetings/:id')
                 console.log(err)
             } else {
                 const meeting = foundUser.meetings.id(req.params.id)
-                meeting.title = req.body.meetingTitle
-                meeting.time = req.body.meetingTime
-                meeting.date = req.body.meetingDate
-                meeting.link=req.body.meetingLink
+                meeting.meetingTitle = req.body.meetingTitle
+                meeting.meetingTime = req.body.meetingTime
+                meeting.meetingDate = req.body.meetingDate
+                meeting.meetingLink=req.body.meetingLink
                 //changes are made to the foundUser so it's needed to be saved 
                 foundUser.save(err => {
                     if (err) {
@@ -159,6 +162,6 @@ app.route('/meetings/:id')
         })
     })
 
-app.listen(3000, function () {
-    console.log("server running port 3000")
+app.listen(5000, function () {
+    console.log("server running port 5000")
 })
