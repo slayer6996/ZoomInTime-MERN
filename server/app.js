@@ -76,7 +76,7 @@ app.route('/meetings')
     .get(function (req, res) {
         //reading all the meetings that exist in the DB with the email of the logged in user
 
-        const userEmail = req.body.email
+        const userEmail = req.query.email
 
         User.find({ email: userEmail }, function (err, foundUser) {
             if (err) {

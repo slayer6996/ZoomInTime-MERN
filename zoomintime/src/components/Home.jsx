@@ -6,7 +6,7 @@ function Home(props){
     return(
         <>
                 <h1>Meetings </h1>  
-                <MeetingsPage/>
+                <MeetingsPage user={props.user}/>
                 <AddMeetingBtn user={props.user}/>
         </>
     )
