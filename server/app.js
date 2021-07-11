@@ -144,6 +144,7 @@ app.route('/meetings/:id')
     .delete(function (req, res) {
         //deleting the meeting with the corresponding id
         const userEmail = req.body.email
+        console.log(req.params.id)
         User.findOne({ email: userEmail }, function (err, foundUser) {
             if (err) {
                 res.send(err)

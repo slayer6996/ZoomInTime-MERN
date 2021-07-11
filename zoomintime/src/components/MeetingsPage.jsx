@@ -3,6 +3,7 @@ import Meeting from './Meeting'
 import './styles/meetingsPage.css'
 
 function MeetingsPage(props) {
+    // console.log(props.user.email)
     const [meetings,setMeetings]=useState([])
 
     useEffect(async () => {
@@ -16,24 +17,20 @@ function MeetingsPage(props) {
         console.log(data[0].meetings)
         setMeetings([...data[0].meetings])
     }, [])
-    
-    // if(meetings.length!==0){
-    //     for(let i=0;i<meetings.length;i++){
-    //         console.log(meetings[i])
-    //     }
-    // }
+
 
     return (
         <>
             <div className="meetingsContainer">
 
                 {
-                    meetings.map((meetingInfo, meetingId) => {
+                    meetings.map((meetingInfo) => {
                         return(
                             <div className="meetingBox">
                             <Meeting 
                                 key={meetingInfo._id}
                                 meetingInfo={meetingInfo}
+                                userEmail={props.user.email}
                             />
                             </div>
                         )

@@ -69,10 +69,17 @@ function AddMeetingBtn(props) {
         console.log(data)
     }
 
-    function formSubmit(event){
+    function formSubmit(){
         //Add meeting to the DB
-        event.preventDefault()
         createNewMeeting()
+        setMeeting({
+            email:props.user.email,
+            meetingTitle: "",
+            meetingTime: "",
+            meetingDate: "",
+            meetingLink: ""
+        })
+        setOpen(false)
     }
 
     return (
@@ -127,7 +134,7 @@ function AddMeetingBtn(props) {
                                     }}
                                 />
                                 <TextField name="meetingLink" onChange={handleChange} id="standard-secondary" label="Meeting link" />
-                                <Button onClick={formSubmit} style={{marginTop:'1rem'}} variant="contained" color="primary">
+                                <Button type="submit" onClick={formSubmit} style={{marginTop:'1rem'}} variant="contained" color="primary">
                                     Add meeting
                                 </Button>
                             </form>
