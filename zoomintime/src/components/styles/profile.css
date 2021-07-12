@@ -1,0 +1,14 @@
+.profile{
+    text-align: left;
+    padding: 1rem;
+}
+
+.profileOptions{
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+}
+
+.profileOptions button{
+    margin-top: 0.5rem;
+}

@@ -36,7 +36,7 @@ function Navbar(props) {
                 </div>
                 <Switch>
                     <Route path="/" component={() => <Home user={loggedInUser} />} exact />
-                    <Route path="/profile" component={Profile} exact />
+                    <Route path="/profile" component={() => <Profile user={loggedInUser}/>} exact />
                 </Switch>
             </BrowserRouter>
         </>

@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
         border: 'none',
         borderRadius: '15px',
         boxShadow: theme.shadows[5],
+        margin:'2rem',
         padding: '3rem',
     },
 }));
@@ -54,8 +55,7 @@ function Meeting(props) {
                 email: props.userEmail
             })
         })
-        const data = await res.json()
-        console.log(data)
+        const data=res.json()
     }
 
     function handleDelete(meetingId) {
@@ -70,8 +70,7 @@ function Meeting(props) {
             },
             body: JSON.stringify(meeting)
         })
-        const data=await res.json()
-        console.log(data)
+        const data=res.json()
     }
 
     function handleChange(event) {
