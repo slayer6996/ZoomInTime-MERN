@@ -57,7 +57,6 @@ function AddMeetingBtn(props) {
     }
 
     const createNewMeeting=async () => {
-        console.log(meeting)
         const res=await fetch('http://localhost:5000/meetings', {
             method:"POST",
             headers:{
@@ -66,7 +65,6 @@ function AddMeetingBtn(props) {
             body:JSON.stringify(meeting)
         })
         const data=await res.json()
-        console.log(data)
     }
 
     function formSubmit(){

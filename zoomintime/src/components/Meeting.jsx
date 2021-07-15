@@ -99,8 +99,8 @@ function Meeting(props) {
     return (
         <>
             <div>
-                <div className="meeting" onClick={handleOpen}>
-                    <div className="meetingDetails">
+                <div className="meeting" >
+                    <div className="meetingDetails" onClick={handleOpen}>
                         <h3>{meetingTitle}</h3>
                         <p>{meetingTime}</p>
                         <p>{meetingDate}</p>

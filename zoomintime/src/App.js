@@ -6,6 +6,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import zoomInTime from './static/ZoomInTime.png'
 
 const firebaseConfig = {
   apiKey: "AIzaSyB1gy5UgGuaY9KzgV8B4AWR1w628SVjkE0",
@@ -20,7 +21,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 function App() {
-  const [auth, setAuth] = useState(false)
+  const [auth, setAuth] = useState(false || window.localStorage.getItem("auth") === "true")
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -30,13 +31,13 @@ function App() {
   useEffect(() => {
     firebase.auth().onAuthStateChanged(userCredentials => {
       if (userCredentials) {
-        console.log(userCredentials)
         setUser({
           name: userCredentials.displayName,
           email: userCredentials.email,
           imageUrl: userCredentials.photoURL
         })
         setAuth(true)
+        window.localStorage.setItem('auth', 'true')
       }
     })
   }, [])
@@ -46,6 +47,7 @@ function App() {
       userCredentials => {
         if (userCredentials) {
           setAuth(true)
+          window.localStorage.setItem('auth', 'true')
         }
       }
     )
@@ -55,10 +57,15 @@ function App() {
     <>
       <center>
         {auth ? <Navbar isLoggedIn={auth} loggedInUser={user} /> : (<div className="signupCTA">
-          <h3>Continue to ZoomInTime</h3>
+          <h1>Continue to ZoomInTime</h1>
           <p>Sign in to manage your meetings.</p>
           <Button variant="contained" style={{ backgroundColor: "#DB4437" }} onClick={googleLogin}>Continue with Google</Button>
-        </div>)}
+          <div>
+            <img src={zoomInTime} alt="pic" className="homePageImg" />
+          </div>
+          <h3>Manage all of your meetings at one place</h3>
+        </div>
+        )}
       </center>
     </>
   );

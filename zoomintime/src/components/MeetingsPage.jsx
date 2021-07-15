@@ -3,19 +3,20 @@ import Meeting from './Meeting'
 import './styles/meetingsPage.css'
 
 function MeetingsPage(props) {
-    // console.log(props.user.email)
     const [meetings,setMeetings]=useState([])
 
-    useEffect(async () => {
-        const res=await fetch(`http://localhost:5000/meetings?email=${props.user.email}`,{
+    useEffect( () => {
+        async function fetchData(){
+            const res=await fetch(`http://localhost:5000/meetings?email=${props.user.email}`,{
             method:"GET",
             headers:{
                 "Content-Type":"application/json"
             },
         })
         const data=await res.json()
-        console.log(data[0].meetings)
         setMeetings([...data[0].meetings])
+        }
+        fetchData()
     }, [])
 
 

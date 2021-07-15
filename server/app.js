@@ -30,30 +30,30 @@ const User = new mongoose.model("User", userSchema)
 //Create meetings at '/meetings' and read at '/meetings' update at '/meetings/:id' delete at '/meetings/:id'
 
 app.route('/')
-    .post(function (req, res) {
+    .post(function (req) {
         //finding user with the enter email if it exists then redirect to '/meetings' otherwise create a new user
         const userEmail = req.body.email
-        User.findOne({ email: userEmail }, function (err, foundUser) {
-            if (err) {
-                console.log(err)
-            } else if (foundUser) {
-                console.log("user logged in")
-                // res.redirect('/meetings')
-            } else {
-                const newUser = new User({
-                    email: userEmail,
-                    meetings: []
-                })
-                newUser.save(function (err) {
-                    if (err) {
-                        console.log(err)
-                    } else {
-                        console.log("new user created successfully")
-                        //res.send("new user created successfully")
-                    }
-                })
-            }
-        })
+        if(userEmail!==""){
+            User.findOne({ email: userEmail }, function (err, foundUser) {
+                if (err) {
+                    console.log(err)
+                } else if (foundUser) {
+                    console.log("user logged in")
+                } else {
+                    const newUser = new User({
+                        email: userEmail,
+                        meetings: []
+                    })
+                    newUser.save(function (err) {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            console.log("new user created successfully")
+                        }
+                    })
+                }
+            })
+        }
     })
 
 app.route('/profile')

@@ -2,7 +2,17 @@
   margin: 0;
 }
 
+body{
+  margin-bottom: 2rem;
+}
+
 .signupCTA{
   margin-top: 1rem;
   line-height: 2;
+}
+
+.homePageImg{
+  margin-top: 2rem;
+  height: 30rem;
+  width: auto;
 }

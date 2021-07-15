@@ -7,21 +7,22 @@ import Home from './Home';
 
 function Navbar(props) {
     const { isLoggedIn, loggedInUser } = props
-    console.log(loggedInUser)
 
-    useEffect(async() => {
-            const res=await fetch('http://localhost:5000', {
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                email:loggedInUser.email
+    useEffect(() => {
+        async function fetchData() {
+            const res = await fetch('http://localhost:5000', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: loggedInUser.email
+                })
             })
-        })
-        const data=await res.json()
-        console.log(data)
-    },[loggedInUser])
+            const data = await res.json()
+        }
+        fetchData()
+    }, [loggedInUser])
 
     return (
         <>
@@ -36,7 +37,7 @@ function Navbar(props) {
                 </div>
                 <Switch>
                     <Route path="/" component={() => <Home user={loggedInUser} />} exact />
-                    <Route path="/profile" component={() => <Profile user={loggedInUser}/>} exact />
+                    <Route path="/profile" component={() => <Profile user={loggedInUser} />} exact />
                 </Switch>
             </BrowserRouter>
         </>

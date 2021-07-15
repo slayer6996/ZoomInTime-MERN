@@ -44,6 +44,7 @@ function Profile(props) {
 
     function signout() {
         firebase.auth().signOut().then(() => {
+            window.localStorage.setItem('auth', 'false')
             window.location.reload(false)
         })
     }
@@ -99,7 +100,7 @@ function Profile(props) {
                                         <h2 id="transition-modal-title">Are you sure you want to delete your account?</h2>
                                         <div className="profileOptions">
                                             <Button variant="outlined" onClick={deleteAccount}>Yes</Button>
-                                            <Button variant="outlined" color="secondary">Cancel</Button>
+                                            <Button variant="outlined" color="secondary" onClick={handleClose}>Cancel</Button>
                                         </div>
                                     </div>
                                 </Fade>
